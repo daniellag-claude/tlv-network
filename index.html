@@ -475,13 +475,13 @@ function connNote(c){
   if(c.t==="remote"){
     return `Hi [Name], I really admire ${c.spec}. I'm a marketing professional moving into events and would love to bring that to a remote-first team like ${c.n}. Would love to connect and follow your work.`;
   }
-  return `Hi [Name], I'm a marketing professional moving into events, relocating to Israel in 2027. I really admire ${c.spec}, and community, events and content is exactly my space. Would love to connect.`;
+  return `Hi [Name], I'm a marketing professional moving into events and community. I really admire ${c.spec}, it's exactly the kind of work I want to be part of. Would love to connect and follow your team.`;
 }
 function followUp(c){
   if(c.t==="remote"){
     return `Hi [Name], thanks for connecting! I reached out because I really admire ${c.spec}. I've spent the past year in marketing at a digital agency, I'm moving into event planning, and I founded a perfume brand (Amora), so community, events and content is where I'm headed. I'd love to bring that to a remote team like ${c.n}. No expectations, but if you ever hear of something remote-friendly on that side, I'd love to be on your radar. Either way, really glad to be connected.`;
   }
-  return `Hi [Name], thanks for connecting! I'm relocating to Israel from South Africa in 2027 and reaching out early to teams I admire. I've spent the past year in marketing at a digital agency, I'm moving into event planning, and I founded a perfume brand (Amora), so community, events and content is where I'm headed. I really admire ${c.spec}. No expectations, but if you ever hear of something on the events, community or content side, I'd love to be on your radar. Either way, really glad to be connected.`;
+  return `Hi [Name], thanks for connecting! I reached out because I really admire ${c.spec}. I've spent the past year in marketing at a digital agency, I'm moving into event planning, and I founded a perfume brand (Amora), so community, events and content is where I'm headed. No expectations, just keen to connect with teams doing work I admire. If you ever hear of something on the events, community or content side, I'd love to be on your radar. Either way, really glad to be connected.`;
 }
 function withName(text, i){
   const nm = (rec(i).name || "").trim();
