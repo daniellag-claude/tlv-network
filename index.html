@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tel Aviv Network Builder</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#171a21; --panel2:#1e222b; --line:#2a2f3a;
+    --ink:#eef1f6; --mut:#9aa3b2; --accent:#5b8cff; --accent2:#34d399;
+    --warn:#f6a14b; --bad:#ef6b6b; --chip:#222836;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.5}
+  header{position:sticky;top:0;z-index:10;background:rgba(15,17,21,.92);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);padding:16px 22px}
+  .wrap{max-width:920px;margin:0 auto}
+  h1{font-size:20px;margin:0 0 4px}
+  .sub{color:var(--mut);font-size:13px}
+  .bar{height:8px;background:var(--panel2);border-radius:99px;overflow:hidden;margin-top:12px}
+  .bar > span{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));width:0%}
+  .barlabel{display:flex;justify-content:space-between;font-size:12px;color:var(--mut);margin-top:6px}
+  main{padding:22px}
+  .controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:18px}
+  input[type=text],input.name{background:var(--panel);border:1px solid var(--line);color:var(--ink);
+    border-radius:9px;padding:9px 12px;font-size:14px;outline:none}
+  input[type=text]:focus,input.name:focus{border-color:var(--accent)}
+  .search{flex:1;min-width:200px}
+  .filters{display:flex;gap:6px;flex-wrap:wrap}
+  .filters button{background:var(--chip);border:1px solid var(--line);color:var(--mut);
+    padding:7px 12px;border-radius:99px;font-size:13px;cursor:pointer}
+  .filters button.active{background:var(--accent);border-color:var(--accent);color:#fff}
+  .today{background:linear-gradient(135deg,#1b2233,#171a21);border:1px solid var(--line);
+    border-radius:16px;padding:18px;margin-bottom:22px}
+  .today h2{margin:0 0 2px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent2)}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
+  .card.done{opacity:.6}
+  .chead{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+  .cname{font-size:17px;font-weight:650;margin:0}
+  .meta{font-size:12px;color:var(--mut);margin-top:2px}
+  .badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:99px;border:1px solid var(--line);
+    background:var(--chip);color:var(--mut);margin-right:6px}
+  .badge.global{color:#9ec1ff;border-color:#2f4470}
+  .badge.israeli{color:#9be7c4;border-color:#27513f}
+  .badge.ngo{color:#f6c98a;border-color:#5e4626}
+  .badge.consulting{color:#cdb6ff;border-color:#42345e}
+  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:12px 0 4px}
+  label.lab{font-size:12px;color:var(--mut);text-transform:uppercase;letter-spacing:.06em}
+  .msg{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:11px 13px;
+    font-size:14px;white-space:pre-wrap;margin-top:6px}
+  .msgwrap{margin-top:12px}
+  .btn{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:8px 13px;font-size:13px;
+    cursor:pointer;font-weight:600}
+  .btn.ghost{background:var(--chip);color:var(--ink);border:1px solid var(--line)}
+  .btn.sm{padding:6px 10px;font-size:12px}
+  .btn.li{background:#0a66c2}
+  .copy{float:right;margin-top:-2px}
+  .count{font-size:11px;color:var(--mut);float:right;margin-top:6px}
+  .count.over{color:var(--bad)}
+  .notes{width:100%;background:var(--panel2);border:1px solid var(--line);color:var(--ink);border-radius:10px;
+    padding:9px 11px;font-size:13px;margin-top:10px;resize:vertical;min-height:38px;font-family:inherit}
+  .donebtn{display:flex;align-items:center;gap:8px;margin-top:12px}
+  .donebtn input{width:17px;height:17px}
+  .donebtn .date{font-size:12px;color:var(--accent2)}
+  .guide{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;margin-top:8px}
+  .guide h2{font-size:17px;margin:0 0 6px}
+  .guide h3{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent2);margin:18px 0 8px}
+  .gsub{color:var(--mut);font-size:13px;margin:0 0 6px}
+  .terms{margin:0;padding-left:18px}
+  .terms li{font-size:14px;margin:6px 0}
+  .terms li span{display:inline-block;background:var(--chip);border:1px solid var(--line);border-radius:6px;
+    padding:1px 7px;font-size:13px;color:#9ec1ff}
+  .foot{color:var(--mut);font-size:12px;text-align:center;padding:30px}
+  .pill{font-size:11px;color:var(--mut)}
+  details summary{cursor:pointer;color:var(--mut);font-size:13px;margin:10px 0}
+  .hide{display:none}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>Tel Aviv Network Builder</h1>
+    <div class="sub">One company a day. Find a person, send the note, log it. Building towards community, events and content roles in Israel.</div>
+    <div class="bar"><span id="progFill"></span></div>
+    <div class="barlabel"><span id="progText">0 of 100 contacted</span><span id="resetBtn" style="cursor:pointer">reset all</span></div>
+  </div>
+</header>
+<main class="wrap">
+  <div id="todayBox"></div>
+
+  <div class="controls">
+    <input type="text" class="search" id="search" placeholder="Search company...">
+    <div class="filters" id="filters">
+      <button data-f="all" class="active">All</button>
+      <button data-f="global">Global</button>
+      <button data-f="israeli">Israeli</button>
+      <button data-f="consulting">Consulting</button>
+      <button data-f="ngo">NGO</button>
+      <button data-f="todo">To do</button>
+    </div>
+  </div>
+
+  <div id="list"></div>
+
+  <section class="guide">
+    <h2>How to find the right person on LinkedIn</h2>
+    <p class="gsub">Don't message a company page, it goes nowhere. Find a real human on the events, community, people or marketing team. Click "Find a person on LinkedIn" on any card, or search these yourself.</p>
+
+    <h3>What to type in LinkedIn search</h3>
+    <p class="gsub">Search the role, then on the results page click <b>People</b>, then filter by <b>Current company</b> (the company) and <b>Locations</b> (Israel or Tel Aviv).</p>
+    <ul class="terms">
+      <li><span>Events Manager</span> or <span>Events Coordinator</span> + company name</li>
+      <li><span>Community Manager</span> or <span>Community Lead</span> + company name</li>
+      <li><span>Employer Brand</span> or <span>Employee Experience</span> + company name</li>
+      <li><span>Social Media Manager</span> or <span>Content</span> + company name</li>
+      <li><span>Talent Acquisition</span> or <span>Recruiter</span> + company name (great for "is anything open?")</li>
+      <li><span>Office Manager</span> or <span>People &amp; Culture</span> + company name</li>
+      <li>For NGOs: <span>Events</span>, <span>Fundraising</span>, <span>Development</span>, or <span>Volunteer Coordinator</span> + org name</li>
+    </ul>
+
+    <h3>Quick rules</h3>
+    <ul class="terms">
+      <li>Aim for someone <b>mid-level</b>, a manager or coordinator. Junior people reply more and often refer you up.</li>
+      <li>Set <b>Locations</b> to Israel so you reach the Tel Aviv team, not the US head office.</li>
+      <li>Send the <b>connection note</b> first (under 300 characters). Only send the <b>follow-up</b> once they accept.</li>
+      <li>Add one personal line where you can, mention a specific event, post or product of theirs. It doubles reply rates.</li>
+      <li>Keep it to <b>one a day</b>. Steady beats a burst that gets you flagged as spam.</li>
+    </ul>
+  </section>
+
+  <div class="foot">Your progress is saved in this browser only. Messages are templates, always add a personal line where you can.</div>
+</main>
+
+<script>
+const COMPANIES = [
+ {n:"Google",t:"global",s:"Tech",spec:"Google's office culture and the events and content its Tel Aviv team is known for"},
+ {n:"Meta",t:"global",s:"Tech",spec:"the brand and community work Meta's Tel Aviv team puts out"},
+ {n:"Microsoft",t:"global",s:"Tech",spec:"how Microsoft builds community and runs events across its Israel offices"},
+ {n:"Amazon / AWS",t:"global",s:"Tech",spec:"the scale and energy of Amazon's Tel Aviv community and events"},
+ {n:"Apple",t:"global",s:"Tech",spec:"Apple's design-led culture at its Herzliya office"},
+ {n:"Nvidia",t:"global",s:"Tech",spec:"how Nvidia brings its huge Israel team together through events"},
+ {n:"Intel",t:"global",s:"Tech",spec:"Intel's deep roots and community in Israel"},
+ {n:"Snap",t:"global",s:"Tech",spec:"Snap's creative, content-first culture at its Tel Aviv office"},
+ {n:"Salesforce",t:"global",s:"Tech",spec:"Salesforce's legendary events culture and community spirit"},
+ {n:"eBay",t:"global",s:"Tech",spec:"eBay's marketing and community work out of Tel Aviv"},
+ {n:"PayPal",t:"global",s:"Fintech",spec:"how PayPal builds community across its Tel Aviv team"},
+ {n:"Cisco",t:"global",s:"Tech",spec:"Cisco's strong presence and people culture in Israel"},
+ {n:"Dell Technologies",t:"global",s:"Tech",spec:"Dell's community and events across its Israel offices"},
+ {n:"IBM",t:"global",s:"Tech",spec:"IBM's brand and events work in Tel Aviv"},
+ {n:"Oracle",t:"global",s:"Tech",spec:"Oracle's community and marketing presence in Israel"},
+ {n:"Qualcomm",t:"global",s:"Tech",spec:"Qualcomm's engineering culture and team events in Israel"},
+ {n:"Akamai",t:"global",s:"Tech",spec:"Akamai's vibrant Tel Aviv office and community"},
+ {n:"Palo Alto Networks",t:"global",s:"Cyber",spec:"the industry events Palo Alto Networks runs out of Tel Aviv"},
+ {n:"Fortinet",t:"global",s:"Cyber",spec:"Fortinet's growing presence and events in Israel"},
+ {n:"Nielsen",t:"global",s:"Data / Media",spec:"Nielsen's media and marketing work in Tel Aviv"},
+ {n:"General Motors",t:"global",s:"Auto / Tech",spec:"how GM builds culture at its Herzliya tech centre"},
+ {n:"PepsiCo",t:"global",s:"Consumer",spec:"PepsiCo's consumer brand and events work in Israel, from SodaStream onwards"},
+ {n:"Philip Morris International",t:"global",s:"Consumer",spec:"PMI's brand and commercial team in Israel"},
+ {n:"Deloitte",t:"consulting",s:"Consulting",spec:"the events and internal community Deloitte builds in Israel"},
+ {n:"PwC Israel",t:"consulting",s:"Consulting",spec:"PwC's people and events culture in Israel"},
+ {n:"EY Israel",t:"consulting",s:"Consulting",spec:"EY's community and events work in Israel"},
+ {n:"KPMG Israel",t:"consulting",s:"Consulting",spec:"KPMG's people and events culture in Israel"},
+ {n:"McKinsey",t:"consulting",s:"Consulting",spec:"McKinsey's culture and community in its Israel office"},
+ {n:"Boston Consulting Group",t:"consulting",s:"Consulting",spec:"BCG's people-first culture in Tel Aviv"},
+ {n:"Citi",t:"global",s:"Fintech",spec:"the work coming out of Citi's Tel Aviv Innovation Lab"},
+ {n:"JPMorgan",t:"global",s:"Finance",spec:"JPMorgan's growing tech and community presence in Israel"},
+ {n:"Visa",t:"global",s:"Fintech",spec:"Visa's innovation work and events in Israel"},
+ {n:"Mastercard",t:"global",s:"Fintech",spec:"Mastercard's cyber and innovation hub and events in Tel Aviv"},
+ {n:"Booking.com",t:"global",s:"Travel",spec:"Booking.com's travel-led culture at its Tel Aviv office"},
+ {n:"Expedia",t:"global",s:"Travel",spec:"Expedia's travel and community work in Israel"},
+ {n:"SAP",t:"global",s:"Tech",spec:"SAP's strong events culture across its Israel R&D"},
+ {n:"Wix",t:"israeli",s:"Tech",spec:"Wix's famous office culture and the events and content it's known for"},
+ {n:"Monday.com",t:"israeli",s:"Tech",spec:"Monday.com's brand, events and community energy in Tel Aviv"},
+ {n:"Fiverr",t:"israeli",s:"Tech",spec:"Fiverr's creative, content-led marketing culture"},
+ {n:"Lemonade",t:"israeli",s:"Insurtech",spec:"Lemonade's bold, brand-first storytelling"},
+ {n:"Taboola",t:"israeli",s:"Adtech",spec:"Taboola's big marketing org and content work in Tel Aviv"},
+ {n:"Outbrain",t:"israeli",s:"Adtech",spec:"Outbrain's content and marketing culture in Tel Aviv"},
+ {n:"Unity",t:"israeli",s:"Gaming tech",spec:"Unity's gaming community and events out of Tel Aviv"},
+ {n:"Playtika",t:"israeli",s:"Gaming",spec:"how Playtika brings its huge team together through events"},
+ {n:"Check Point",t:"israeli",s:"Cyber",spec:"the major industry events Check Point runs from Tel Aviv"},
+ {n:"CyberArk",t:"israeli",s:"Cyber",spec:"CyberArk's events and marketing work in Israel"},
+ {n:"SentinelOne",t:"israeli",s:"Cyber",spec:"SentinelOne's fast-growing marketing and brand work"},
+ {n:"Wiz",t:"israeli",s:"Cyber",spec:"Wiz's incredible growth story and the community it's building"},
+ {n:"Snyk",t:"israeli",s:"Cyber",spec:"the developer community and events Snyk builds in Tel Aviv"},
+ {n:"JFrog",t:"israeli",s:"Tech",spec:"JFrog's swampUP events and developer community"},
+ {n:"Riskified",t:"israeli",s:"Fintech",spec:"Riskified's brand and people culture in Tel Aviv"},
+ {n:"Global-e",t:"israeli",s:"E-commerce",spec:"Global-e's e-commerce and brand work in Tel Aviv"},
+ {n:"Payoneer",t:"israeli",s:"Fintech",spec:"Payoneer's global community and events work"},
+ {n:"eToro",t:"israeli",s:"Fintech",spec:"eToro's bold, brand-led marketing and community"},
+ {n:"Melio",t:"israeli",s:"Fintech",spec:"Melio's design-led brand culture in Tel Aviv"},
+ {n:"Rapyd",t:"israeli",s:"Fintech",spec:"Rapyd's fast growth and global events"},
+ {n:"Gong",t:"israeli",s:"SaaS",spec:"Gong's brilliant marketing and events culture"},
+ {n:"WalkMe",t:"israeli",s:"SaaS",spec:"WalkMe's brand and community work in Tel Aviv"},
+ {n:"Similarweb",t:"israeli",s:"Data",spec:"Similarweb's content and marketing culture"},
+ {n:"AppsFlyer",t:"israeli",s:"Adtech",spec:"AppsFlyer's famous office culture and events"},
+ {n:"Yotpo",t:"israeli",s:"E-commerce",spec:"Yotpo's e-commerce marketing and brand work"},
+ {n:"Tipalti",t:"israeli",s:"Fintech",spec:"Tipalti's people and community culture"},
+ {n:"Forter",t:"israeli",s:"Fintech",spec:"Forter's brand and people culture in Tel Aviv"},
+ {n:"Armis",t:"israeli",s:"Cyber",spec:"Armis's fast growth and the community it's building"},
+ {n:"Claroty",t:"israeli",s:"Cyber",spec:"Claroty's brand and events work in Tel Aviv"},
+ {n:"Cato Networks",t:"israeli",s:"Cyber",spec:"Cato Networks' growth and marketing culture"},
+ {n:"Hibob",t:"israeli",s:"HR tech",spec:"Hibob's people-first brand and culture"},
+ {n:"Papaya Global",t:"israeli",s:"HR tech",spec:"Papaya Global's global events and brand work"},
+ {n:"Deel",t:"global",s:"HR tech",spec:"Deel's global community and events energy"},
+ {n:"Natural Intelligence",t:"israeli",s:"Digital media",spec:"Natural Intelligence's content and marketing culture in Tel Aviv"},
+ {n:"Optimove",t:"israeli",s:"Martech",spec:"the events and community Optimove builds in Tel Aviv"},
+ {n:"Minute Media",t:"israeli",s:"Media",spec:"Minute Media's content-led, storytelling culture"},
+ {n:"Via Transportation",t:"israeli",s:"Mobility",spec:"Via's mission-driven culture in Tel Aviv"},
+ {n:"Gett",t:"israeli",s:"Mobility",spec:"Gett's brand and community work in Tel Aviv"},
+ {n:"Lightricks",t:"israeli",s:"Creative tech",spec:"Lightricks' creative, content-first culture"},
+ {n:"Houzz",t:"israeli",s:"Consumer tech",spec:"Houzz's design and community work"},
+ {n:"SodaStream",t:"israeli",s:"Consumer",spec:"SodaStream's consumer brand and events energy"},
+ {n:"Stampli",t:"israeli",s:"Fintech",spec:"Stampli's growing brand and people culture"},
+ {n:"Verbit",t:"israeli",s:"AI / SaaS",spec:"Verbit's growth and brand work in Tel Aviv"},
+ {n:"BigPanda",t:"israeli",s:"SaaS",spec:"BigPanda's brand and community culture"},
+ {n:"Kaltura",t:"israeli",s:"Video tech",spec:"Kaltura's video and content-led culture in Tel Aviv"},
+ {n:"Playtech",t:"global",s:"Gaming",spec:"Playtech's gaming events and community in Israel"},
+ {n:"Airwallex",t:"global",s:"Fintech",spec:"Airwallex's fast global growth and Tel Aviv team"},
+ {n:"Tricentis",t:"global",s:"Tech",spec:"Tricentis's community and events in Tel Aviv"},
+ {n:"Dynatrace",t:"global",s:"Tech",spec:"Dynatrace's brand and community work in Tel Aviv"},
+ {n:"GlassesUSA",t:"israeli",s:"E-commerce",spec:"GlassesUSA's consumer brand and marketing culture"},
+ {n:"Bringg",t:"israeli",s:"Logistics",spec:"Bringg's brand and community work in Tel Aviv"},
+ {n:"Empathy",t:"israeli",s:"SaaS",spec:"Empathy's mission-driven, human brand"},
+ {n:"Visit.org",t:"global",s:"Social impact",spec:"Visit.org's mission to power social-impact experiences"},
+ {n:"WeWork Israel",t:"global",s:"Community / Real estate",spec:"the community and events WeWork builds across its Israel spaces"},
+ {n:"IsraAID",t:"ngo",s:"Humanitarian",spec:"IsraAID's humanitarian work and the global community behind it"},
+ {n:"Save a Child's Heart",t:"ngo",s:"Health",spec:"Save a Child's Heart's life-saving mission and its events and fundraising"},
+ {n:"Latet",t:"ngo",s:"Anti-poverty",spec:"Latet's work fighting poverty in Israel and the events behind it"},
+ {n:"Leket Israel",t:"ngo",s:"Food rescue",spec:"Leket Israel's food-rescue mission and volunteer community"},
+ {n:"Pitchon Lev",t:"ngo",s:"Anti-poverty",spec:"Pitchon Lev's work supporting families across Israel"},
+ {n:"Magen David Adom",t:"ngo",s:"Emergency / Health",spec:"Magen David Adom's life-saving work and its international community"},
+ {n:"Nefesh B'Nefesh",t:"ngo",s:"Immigration",spec:"the events and community Nefesh B'Nefesh builds for new immigrants"},
+ {n:"Kuchinate",t:"ngo",s:"Women / Refugees",spec:"Kuchinate's work empowering women through community in Tel Aviv"},
+ {n:"JDC",t:"ngo",s:"Humanitarian",spec:"JDC's humanitarian work and global community"},
+ {n:"Tel Aviv International Salon",t:"ngo",s:"Community / Events",spec:"the Tel Aviv International Salon's role at the heart of the city's English-speaking events scene"}
+];
+
+const STORE_KEY = "tlv_network_v1";
+let state = JSON.parse(localStorage.getItem(STORE_KEY) || "{}");
+function save(){ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }
+function rec(i){ return state[i] || (state[i] = {done:false, date:"", notes:"", name:""}); }
+
+function connNote(c){
+  return `Hi [Name], I'm planning a move to Israel and starting to build connections early. I really admire ${c.spec}. I'm hoping to move into community, events and content creation myself, would love to connect.`;
+}
+function followUp(c){
+  return `Hi [Name], thanks for connecting! I'm planning a move to Israel from South Africa and reaching out early to people whose teams I genuinely admire. I'm looking to build a career in community, events and content creation, and I really admire ${c.spec}. I'm right at the start of that path, so I'm mostly here to learn and connect. If you ever hear of something junior on the community, events or content side down the line, I'd love to be on your radar. Either way, really glad to be connected.`;
+}
+function withName(text, i){
+  const nm = (rec(i).name || "").trim();
+  return nm ? text.replaceAll("[Name]", nm) : text;
+}
+function liSearch(c){
+  const q = encodeURIComponent(c.n.replace(/ \/.*/,"") + " events community marketing people");
+  return `https://www.linkedin.com/search/results/people/?keywords=${q}`;
+}
+
+let filter = "all", query = "";
+
+function matches(c, i){
+  if(query && !c.n.toLowerCase().includes(query)) return false;
+  if(filter==="all") return true;
+  if(filter==="todo") return !rec(i).done;
+  return c.t===filter;
+}
+
+function badge(t){
+  const map={global:"Global",israeli:"Israeli",ngo:"NGO",consulting:"Consulting"};
+  return `<span class="badge ${t}">${map[t]||t}</span>`;
+}
+
+function cardHTML(c, i, isToday){
+  const r = rec(i);
+  const cn = withName(connNote(c), i);
+  const fu = withName(followUp(c), i);
+  return `<div class="card ${r.done?'done':''}" data-i="${i}">
+    <div class="chead">
+      <div>
+        <p class="cname">${i+1}. ${c.n}</p>
+        <div class="meta">${badge(c.t)} <span class="pill">${c.s}</span></div>
+      </div>
+      <a class="btn li sm" href="${liSearch(c)}" target="_blank" rel="noopener">Find a person on LinkedIn</a>
+    </div>
+
+    <div class="row"><label class="lab">Their name</label>
+      <input class="name" data-i="${i}" placeholder="e.g. Maya" value="${(r.name||'').replace(/"/g,'&quot;')}" style="flex:1;min-width:140px">
+    </div>
+
+    <div class="msgwrap">
+      <label class="lab">Connection request note <span class="count" data-len="${i}">0</span></label>
+      <button class="btn ghost sm copy" data-copy="conn" data-i="${i}">Copy</button>
+      <div class="msg" data-msg="conn" data-i="${i}">${cn}</div>
+    </div>
+
+    <div class="msgwrap">
+      <label class="lab">Follow-up after they accept</label>
+      <button class="btn ghost sm copy" data-copy="fu" data-i="${i}">Copy</button>
+      <div class="msg" data-msg="fu" data-i="${i}">${fu}</div>
+    </div>
+
+    <textarea class="notes" data-i="${i}" placeholder="Notes: who you messaged, their reply, follow-up date...">${(r.notes||'').replace(/</g,'&lt;')}</textarea>
+
+    <div class="donebtn">
+      <input type="checkbox" data-done="${i}" ${r.done?'checked':''}>
+      <label class="lab" style="cursor:pointer">Mark as contacted</label>
+      <span class="date">${r.done&&r.date?('• '+r.date):''}</span>
+    </div>
+  </div>`;
+}
+
+function nextTodo(){
+  for(let i=0;i<COMPANIES.length;i++){ if(!rec(i).done) return i; }
+  return -1;
+}
+
+function render(){
+  // progress
+  const done = COMPANIES.filter((_,i)=>rec(i).done).length;
+  document.getElementById('progFill').style.width = (done/COMPANIES.length*100)+'%';
+  document.getElementById('progText').textContent = `${done} of ${COMPANIES.length} contacted`;
+
+  // today
+  const ti = nextTodo();
+  const tb = document.getElementById('todayBox');
+  if(ti>=0 && !query && filter==="all"){
+    tb.innerHTML = `<div class="today"><h2>Today's company</h2>${cardHTML(COMPANIES[ti], ti, true)}</div>`;
+  } else { tb.innerHTML = ti<0 ? `<div class="today"><h2>All done</h2><p class="sub">You've worked through all 100. Reset to go again, or revisit your notes below.</p></div>` : ''; }
+
+  // list
+  const list = document.getElementById('list');
+  list.innerHTML = COMPANIES.map((c,i)=> matches(c,i)? cardHTML(c,i,false):'').join('');
+
+  // update char counts
+  document.querySelectorAll('[data-len]').forEach(el=>{
+    const i = +el.dataset.len;
+    const len = withName(connNote(COMPANIES[i]), i).length;
+    el.textContent = len + " / 300 chars";
+    el.classList.toggle('over', len>300);
+  });
+}
+
+document.addEventListener('click', e=>{
+  const cp = e.target.closest('[data-copy]');
+  if(cp){
+    const i=+cp.dataset.i, which=cp.dataset.copy;
+    const text = which==='conn'? withName(connNote(COMPANIES[i]),i) : withName(followUp(COMPANIES[i]),i);
+    navigator.clipboard.writeText(text).then(()=>{
+      const old=cp.textContent; cp.textContent='Copied'; setTimeout(()=>cp.textContent=old,1200);
+    });
+    return;
+  }
+  const f = e.target.closest('[data-f]');
+  if(f){
+    filter=f.dataset.f;
+    document.querySelectorAll('#filters button').forEach(b=>b.classList.toggle('active',b===f));
+    render(); return;
+  }
+  if(e.target.id==='resetBtn'){
+    if(confirm('Reset all progress, names and notes?')){ state={}; save(); render(); }
+  }
+});
+
+document.addEventListener('change', e=>{
+  const d = e.target.closest('[data-done]');
+  if(d){
+    const i=+d.dataset.done; const r=rec(i);
+    r.done = d.checked;
+    if(d.checked && !r.date){ r.date = new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}); }
+    if(!d.checked){ r.date=''; }
+    save(); render(); return;
+  }
+});
+
+document.addEventListener('input', e=>{
+  const nm = e.target.closest('input.name');
+  if(nm){
+    const i=+nm.dataset.i; rec(i).name=nm.value; save();
+    // live-update visible message text + counts for this index without full rerender
+    document.querySelectorAll(`[data-msg][data-i="${i}"]`).forEach(m=>{
+      m.textContent = m.dataset.msg==='conn'? withName(connNote(COMPANIES[i]),i):withName(followUp(COMPANIES[i]),i);
+    });
+    document.querySelectorAll(`[data-len="${i}"]`).forEach(el=>{
+      const len=withName(connNote(COMPANIES[i]),i).length; el.textContent=len+" / 300 chars"; el.classList.toggle('over',len>300);
+    });
+    return;
+  }
+  const nt = e.target.closest('textarea.notes');
+  if(nt){ rec(+nt.dataset.i).notes=nt.value; save(); return; }
+  if(e.target.id==='search'){ query=e.target.value.toLowerCase().trim(); render(); }
+});
+
+render();
+</script>
+</body>
+</html>
