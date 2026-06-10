@@ -473,15 +473,15 @@ function rec(i){
 
 function connNote(c){
   if(c.t==="remote"){
-    return `Hi [Name], I really admire ${c.spec}. I'm building a career in community, events and content creation and would love to do it with a remote-first team like ${c.n}. Would love to connect and follow your work.`;
+    return `Hi [Name], I really admire ${c.spec}. I'm a marketing & events professional and would love to bring that to a remote-first team like ${c.n}. Would love to connect and follow your work.`;
   }
-  return `Hi [Name], I'm planning a move to Israel and starting to build connections early. I really admire ${c.spec}. I'm hoping to move into community, events and content creation myself, would love to connect.`;
+  return `Hi [Name], I'm a marketing & events professional relocating to Israel in 2027. I really admire ${c.spec}, and community, events and content is exactly my space. Would love to connect.`;
 }
 function followUp(c){
   if(c.t==="remote"){
-    return `Hi [Name], thanks for connecting! I reached out because I really admire ${c.spec}. I'm building a career in community, events and content creation, the work of bringing people together and telling a brand's story, and I'd love to do that with a remote team like ${c.n}. I'm early in this path, so I'm mostly here to learn and connect. If you ever hear of something junior and remote-friendly on the community, events or content side, I'd love to be on your radar. Either way, really glad to be connected.`;
+    return `Hi [Name], thanks for connecting! I reached out because I really admire ${c.spec}. I've spent the past year in marketing at a digital agency, I plan events, and I founded a perfume brand (Amora), so community, events and content is where I work. I'd love to bring that to a remote team like ${c.n}. No expectations, but if you ever hear of something remote-friendly on that side, I'd love to be on your radar. Either way, really glad to be connected.`;
   }
-  return `Hi [Name], thanks for connecting! I'm planning a move to Israel from South Africa and reaching out early to people whose teams I genuinely admire. I'm looking to build a career in community, events and content creation, and I really admire ${c.spec}. I'm right at the start of that path, so I'm mostly here to learn and connect. If you ever hear of something junior on the community, events or content side down the line, I'd love to be on your radar. Either way, really glad to be connected.`;
+  return `Hi [Name], thanks for connecting! I'm relocating to Israel from South Africa in 2027 and reaching out early to teams I admire. I've spent the past year in marketing at a digital agency, I plan events, and I founded a perfume brand (Amora), so community, events and content is exactly where I work. I really admire ${c.spec}. No expectations, but if you ever hear of something on the events, community or content side, I'd love to be on your radar. Either way, really glad to be connected.`;
 }
 function withName(text, i){
   const nm = (rec(i).name || "").trim();
