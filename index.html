@@ -45,6 +45,7 @@
   .badge.israeli{color:#9be7c4;border-color:#27513f}
   .badge.ngo{color:#f6c98a;border-color:#5e4626}
   .badge.consulting{color:#cdb6ff;border-color:#42345e}
+  .badge.agency{color:#f5a9c9;border-color:#5e2a45}
   .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:12px 0 4px}
   label.lab{font-size:12px;color:var(--mut);text-transform:uppercase;letter-spacing:.06em}
   .msg{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:11px 13px;
@@ -96,7 +97,7 @@
       <button data-f="global">Global</button>
       <button data-f="israeli">Israeli</button>
       <button data-f="consulting">Consulting</button>
-      <button data-f="ngo">NGO</button>
+      <button data-f="agency">Agencies</button>
       <button data-f="todo">To do</button>
     </div>
   </div>
@@ -108,7 +109,7 @@
     <p class="gsub">Don't message a company page, it goes nowhere. Find a real human on the events, community, people or marketing team. Click "Find a person on LinkedIn" on any card, or search these yourself.</p>
 
     <h3>What to type in LinkedIn search</h3>
-    <p class="gsub">Search the role, then on the results page click <b>People</b>, then filter by <b>Current company</b> (the company) and <b>Locations</b> (Israel or Tel Aviv).</p>
+    <p class="gsub">Search the role, then on the results page click <b>People</b>, then filter by <b>Current company</b> (the company) and <b>Locations</b> (Israel, Tel Aviv or Herzliya).</p>
     <ul class="terms">
       <li><span>Events Manager</span> or <span>Events Coordinator</span> + company name</li>
       <li><span>Community Manager</span> or <span>Community Lead</span> + company name</li>
@@ -122,7 +123,7 @@
     <h3>Quick rules</h3>
     <ul class="terms">
       <li>Aim for someone <b>mid-level</b>, a manager or coordinator. Junior people reply more and often refer you up.</li>
-      <li>Set <b>Locations</b> to Israel so you reach the Tel Aviv team, not the US head office.</li>
+      <li>Set <b>Locations</b> to Israel (Tel Aviv or Herzliya) so you reach the local team, not the US head office.</li>
       <li>Send the <b>connection note</b> first (under 300 characters). Only send the <b>follow-up</b> once they accept.</li>
       <li>Add one personal line where you can, mention a specific event, post or product of theirs. It doubles reply rates.</li>
       <li>Keep it to <b>one a day</b>. Steady beats a burst that gets you flagged as spam.</li>
@@ -224,22 +225,116 @@ const COMPANIES = [
  {n:"Empathy",t:"israeli",s:"SaaS",spec:"Empathy's mission-driven, human brand"},
  {n:"Visit.org",t:"global",s:"Social impact",spec:"Visit.org's mission to power social-impact experiences"},
  {n:"WeWork Israel",t:"global",s:"Community / Real estate",spec:"the community and events WeWork builds across its Israel spaces"},
- {n:"IsraAID",t:"ngo",s:"Humanitarian",spec:"IsraAID's humanitarian work and the global community behind it"},
- {n:"Save a Child's Heart",t:"ngo",s:"Health",spec:"Save a Child's Heart's life-saving mission and its events and fundraising"},
- {n:"Latet",t:"ngo",s:"Anti-poverty",spec:"Latet's work fighting poverty in Israel and the events behind it"},
- {n:"Leket Israel",t:"ngo",s:"Food rescue",spec:"Leket Israel's food-rescue mission and volunteer community"},
- {n:"Pitchon Lev",t:"ngo",s:"Anti-poverty",spec:"Pitchon Lev's work supporting families across Israel"},
- {n:"Magen David Adom",t:"ngo",s:"Emergency / Health",spec:"Magen David Adom's life-saving work and its international community"},
- {n:"Nefesh B'Nefesh",t:"ngo",s:"Immigration",spec:"the events and community Nefesh B'Nefesh builds for new immigrants"},
- {n:"Kuchinate",t:"ngo",s:"Women / Refugees",spec:"Kuchinate's work empowering women through community in Tel Aviv"},
- {n:"JDC",t:"ngo",s:"Humanitarian",spec:"JDC's humanitarian work and global community"},
- {n:"Tel Aviv International Salon",t:"ngo",s:"Community / Events",spec:"the Tel Aviv International Salon's role at the heart of the city's English-speaking events scene"}
+ {n:"SAGE Marketing",t:"agency",s:"Content / B2B",spec:"SAGE Marketing's content and brand work for global B2B companies"},
+ {n:"InboundJunction",t:"agency",s:"Content / digital PR",spec:"InboundJunction's content and digital PR work for hundreds of startups"},
+ {n:"Moburst",t:"agency",s:"Mobile / content",spec:"Moburst's bold, creative mobile and content marketing"},
+ {n:"Xtra Mile",t:"agency",s:"B2B content",spec:"Xtra Mile's B2B content and lifecycle marketing"},
+ {n:"Mayple",t:"agency",s:"Digital marketing",spec:"Mayple's data-led marketing work across so many brands"},
+ {n:"Angora Media",t:"agency",s:"Digital / SEO",spec:"Angora Media's digital and content work for e-commerce and SaaS"},
+ {n:"RnD Marketing",t:"agency",s:"Social / content",spec:"RnD Marketing's social and content work out of Tel Aviv"},
+ {n:"Sitrus",t:"agency",s:"E-commerce / social",spec:"Sitrus's e-commerce and social media work"},
+ {n:"Palma Media",t:"agency",s:"Performance media",spec:"Palma Media's boutique performance media work in Tel Aviv"},
+ {n:"NinjaPromo",t:"agency",s:"Social / content",spec:"NinjaPromo's social and content marketing across tech"},
+ {n:"Go Envy",t:"agency",s:"Demand gen / content",spec:"Go Envy's demand-generation and content work for tech companies"},
+ {n:"Wisy",t:"agency",s:"Online marketing",spec:"Wisy's boutique online-marketing work in Tel Aviv"},
+ {n:"Ad-Experience",t:"agency",s:"Digital marketing",spec:"Ad-Experience's full-service digital marketing in Tel Aviv"},
+ {n:"Kahena",t:"agency",s:"Performance / SEO",spec:"Kahena's performance and search marketing for SaaS"},
+ {n:"Shoden Global",t:"agency",s:"Content / SEO",spec:"Shoden Global's content and SEO work for B2B brands"},
+ {n:"Captain Words",t:"agency",s:"Content / localisation",spec:"Captain Words's content creation and localisation work"},
+ {n:"Israel Tech Marketing",t:"agency",s:"Tech content",spec:"Israel Tech Marketing's content work for tech and SaaS companies"},
+ {n:"Tevel Media",t:"agency",s:"Performance",spec:"Tevel Media's performance and content campaigns"},
+ {n:"LDRS Group (Leaders)",t:"agency",s:"Influencer",spec:"LDRS Group's influencer and culture-led campaigns, founded in Tel Aviv"},
+ {n:"The Influencer Marketing Factory",t:"agency",s:"Influencer",spec:"The Influencer Marketing Factory's data-led influencer work in Tel Aviv"},
+ {n:"Magniv",t:"agency",s:"Influencer",spec:"Magniv's influencer management and campaign work in Tel Aviv"},
+ {n:"Iron Roots",t:"agency",s:"Social / content",spec:"Iron Roots' social media and content creation work"},
+ {n:"Converting Digital",t:"agency",s:"Performance / e-commerce",spec:"Converting Digital's performance marketing for e-commerce"},
+ {n:"Kadima Digital",t:"agency",s:"Social / paid",spec:"Kadima Digital's social and paid-media work"},
+ {n:"Natie",t:"agency",s:"Branding",spec:"Natie's international branding and brand storytelling from Tel Aviv"},
+ {n:"Muze",t:"agency",s:"Product / brand design",spec:"Muze's product and brand design for startups"},
+ {n:"Butcher.studio",t:"agency",s:"Brand identity",spec:"Butcher.studio's distinctive brand identity work"},
+ {n:"Fishfinger",t:"agency",s:"Branding",spec:"Fishfinger's creative branding and visual identity work"},
+ {n:"Bee Creations",t:"agency",s:"Branding / design",spec:"Bee Creations' branding and design work in Tel Aviv"},
+ {n:"Hooligans",t:"agency",s:"Creative / production",spec:"Hooligans' creative storytelling and digital production"},
+ {n:"Sagi&Co",t:"agency",s:"Brand identity",spec:"Sagi&Co's brand identity and creative work"},
+ {n:"Metabrand",t:"agency",s:"Startup branding",spec:"Metabrand's startup branding work in Tel Aviv"},
+ {n:"Designit Tel Aviv",t:"agency",s:"Design studio",spec:"Designit's design-driven innovation studio in Tel Aviv"},
+ {n:"Awaken Studio",t:"agency",s:"Web design",spec:"Awaken Studio's strategic, beautifully built websites"},
+ {n:"Hello Design",t:"agency",s:"UX / brand",spec:"Hello.'s UX and brand work for tech startups"},
+ {n:"Art Cube",t:"agency",s:"Design studio",spec:"Art Cube's design studio work in Tel Aviv"},
+ {n:"The Studio",t:"agency",s:"Branding / web",spec:"The Studio's branding, web and print design"},
+ {n:"SPARK",t:"agency",s:"Branding / UI",spec:"SPARK's branding and UI work for high-tech brands"},
+ {n:"The Bract",t:"agency",s:"Branding",spec:"The Bract's branding work for tech founders"},
+ {n:"Plus972",t:"agency",s:"Branding / marketing",spec:"Plus972's integrated branding across Tel Aviv and New York"},
+ {n:"Walther Kranz",t:"agency",s:"PR",spec:"Walther Kranz's PR work for tech, gaming and fintech"},
+ {n:"Concrete Media",t:"agency",s:"PR",spec:"Concrete Media's corporate communications for tech companies"},
+ {n:"Headline Media",t:"agency",s:"PR",spec:"Headline Media's storytelling and PR for high-growth companies"},
+ {n:"Ben Horin & Alexandrovitz",t:"agency",s:"PR / comms",spec:"Ben Horin & Alexandrovitz's communications work across Israel"},
+ {n:"Donitza PR",t:"agency",s:"PR",spec:"Donitza PR's boutique PR work for global brands and startups"},
+ {n:"Rimon Cohen & Co",t:"agency",s:"PR / strategy",spec:"Rimon Cohen & Co's PR and strategy work in Tel Aviv"},
+ {n:"Extra Mind",t:"agency",s:"PR / employer brand",spec:"Extra Mind's PR, employer branding and social work for tech"},
+ {n:"DM Communications",t:"agency",s:"PR / digital",spec:"DM Communications' PR and digital work across London and Tel Aviv"},
+ {n:"Blonde 2.0",t:"agency",s:"PR / digital",spec:"Blonde 2.0's PR and digital marketing for tech startups"},
+ {n:"Catch D.I",t:"agency",s:"Event production",spec:"Catch D.I's corporate event production for hi-tech companies"},
+ {n:"ORTRA",t:"agency",s:"Conference production",spec:"ORTRA's international conference and event production"},
+ {n:"Letizia Events",t:"agency",s:"Event design",spec:"Letizia Events' boutique event design and production"},
+ {n:"SO & Co",t:"agency",s:"Premium events",spec:"SO & Co's premium bespoke event production"},
+ {n:"Danny Marx Event Production",t:"agency",s:"Corporate events",spec:"Danny Marx's corporate event production across Israel and worldwide"},
+ {n:"Bardugo",t:"agency",s:"Event production",spec:"Bardugo's creative event production and retreats"},
+ {n:"Tali Yaacobi Event Production",t:"agency",s:"Event production",spec:"Tali Yaacobi's prestigious event production work"},
+ {n:"MPlive Events",t:"agency",s:"Business events",spec:"MPlive's creative business-event production"},
+ {n:"EventHandler",t:"agency",s:"Tech events",spec:"EventHandler's production of hi-tech R&D events like Node.TLV"},
+ {n:"People & Computers",t:"agency",s:"Tech conferences",spec:"People & Computers' B2B tech events and conferences"},
+ {n:"Uniq.Israel Events",t:"agency",s:"Corporate / MICE",spec:"Uniq.Israel's corporate and MICE event production"},
+ {n:"Shoof",t:"agency",s:"Video",spec:"Shoof's video storytelling for tech companies"},
+ {n:"Laserbee",t:"agency",s:"Video",spec:"Laserbee's video production studio in Tel Aviv"},
+ {n:"AnKa Video & Animation",t:"agency",s:"Video / animation",spec:"AnKa's video and animation work in Tel Aviv"},
+ {n:"770Productions",t:"agency",s:"Video",spec:"770Productions' full-service video production"},
+ {n:"Studio Volare",t:"agency",s:"Video / animation",spec:"Studio Volare's creative video and animation work"},
+ {n:"Highlight Films",t:"agency",s:"Video / film",spec:"Highlight Films' documentary and corporate video work"},
+ {n:"Vidico",t:"agency",s:"Video content",spec:"Vidico's video content work for tech brands"},
+ {n:"McCann Tel Aviv",t:"agency",s:"Advertising",spec:"McCann Tel Aviv's creative work as Israel's largest agency"},
+ {n:"BBR Saatchi & Saatchi",t:"agency",s:"Advertising",spec:"BBR Saatchi & Saatchi's award-winning creative campaigns"},
+ {n:"Gitam BBDO",t:"agency",s:"Advertising",spec:"Gitam BBDO's creative and content work for screen and digital"},
+ {n:"Adler Chomski",t:"agency",s:"Advertising",spec:"Adler Chomski's campaign work across TV and digital"},
+ {n:"LEAD Ogilvy",t:"agency",s:"Advertising",spec:"LEAD Ogilvy's creative work as Ogilvy's Israel partner"},
+ {n:"Havas Israel",t:"agency",s:"Advertising",spec:"Havas Israel's creative, media and brand work"},
+ {n:"Shalmor Avnon Amichay",t:"agency",s:"Advertising",spec:"Shalmor Avnon Amichay's award-winning creative work"},
+ {n:"Glickman Shamir Samsonov",t:"agency",s:"Advertising",spec:"GSS's creative work as one of Israel's largest agencies"},
+ {n:"Allenby Concept House",t:"agency",s:"Advertising / digital",spec:"Allenby Concept House's digital-led creative work"},
+ {n:"Leo Burnett Tel Aviv",t:"agency",s:"Advertising",spec:"Leo Burnett Tel Aviv's creative campaigns"},
+ {n:"Publicis Tel Aviv",t:"agency",s:"Advertising",spec:"Publicis Tel Aviv's creative and content work"},
+ {n:"Penguin Strategies",t:"agency",s:"B2B marketing",spec:"Penguin Strategies' B2B content and demand-gen work"},
+ {n:"GO Digital Marketing",t:"agency",s:"Performance",spec:"GO Digital Marketing's performance and e-commerce work"},
+ {n:"Inter-Dev",t:"agency",s:"B2B digital",spec:"Inter-Dev's B2B digital marketing work"},
+ {n:"AppLabx",t:"agency",s:"SEO / content",spec:"AppLabx's SEO and content work for startups"},
+ {n:"David Vatine",t:"agency",s:"Digital marketing",spec:"David Vatine's digital marketing and growth work"},
+ {n:"Adcore",t:"agency",s:"Performance",spec:"Adcore's performance marketing technology and services"},
+ {n:"Gova10",t:"agency",s:"Comms / content",spec:"Gova10's strategic communications and content for tech companies"},
+ {n:"Tomedes",t:"agency",s:"Content / localisation",spec:"Tomedes's content and localisation work"},
+ {n:"KeyScouts",t:"agency",s:"SEO / content",spec:"KeyScouts' SEO and content work for B2B brands"},
+ {n:"SEO Israel",t:"agency",s:"SEO / digital",spec:"SEO Israel's long-standing digital marketing work"},
+ {n:"Operad",t:"agency",s:"SEO / performance",spec:"Operad's SEO and performance marketing work"},
+ {n:"Percepto",t:"agency",s:"PR / content",spec:"Percepto's PR, content and online-reputation work"},
+ {n:"Marketing Envy",t:"agency",s:"B2B tech marketing",spec:"Marketing Envy's B2B tech marketing and content"},
+ {n:"Dataworks",t:"agency",s:"E-commerce",spec:"Dataworks' 360 e-commerce marketing and content work"},
+ {n:"ERPR Group",t:"agency",s:"Social / community",spec:"ERPR Group's social and community work for e-commerce brands"},
+ {n:"Igor Digital",t:"agency",s:"E-commerce / paid",spec:"Igor Digital's paid-media work for e-commerce"},
+ {n:"YB Marketing",t:"agency",s:"SEO / content",spec:"YB Marketing's SEO and content work"},
+ {n:"DigiTay",t:"agency",s:"Analytics / ads",spec:"DigiTay's performance and analytics-led marketing"},
+ {n:"Finn Partners Israel",t:"agency",s:"PR",spec:"Finn Partners' global PR work from its Israel office"},
+ {n:"ARMOUR Digital Marketing",t:"agency",s:"Digital marketing",spec:"ARMOUR's digital marketing work in Tel Aviv"},
+ {n:"Leos Media & Interactive",t:"agency",s:"Digital / interactive",spec:"Leos Media's digital and interactive work"},
+ {n:"LEVIEV'S Digital Marketing",t:"agency",s:"Digital marketing",spec:"LEVIEV'S digital marketing and content work"}
 ];
 
 const STORE_KEY = "tlv_network_v1";
 let state = JSON.parse(localStorage.getItem(STORE_KEY) || "{}");
 function save(){ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }
-function rec(i){ return state[i] || (state[i] = {done:false, date:"", notes:"", name:""}); }
+function rec(i){
+  if(!state[i]) state[i] = {done:false, connSent:false, date:"", notes:"", name:""};
+  if(state[i].connSent===undefined) state[i].connSent=false;
+  return state[i];
+}
 
 function connNote(c){
   return `Hi [Name], I'm planning a move to Israel and starting to build connections early. I really admire ${c.spec}. I'm hoping to move into community, events and content creation myself, would love to connect.`;
@@ -266,7 +361,7 @@ function matches(c, i){
 }
 
 function badge(t){
-  const map={global:"Global",israeli:"Israeli",ngo:"NGO",consulting:"Consulting"};
+  const map={global:"Global",israeli:"Israeli",agency:"Agency",consulting:"Consulting"};
   return `<span class="badge ${t}">${map[t]||t}</span>`;
 }
 
@@ -302,8 +397,10 @@ function cardHTML(c, i, isToday){
     <textarea class="notes" data-i="${i}" placeholder="Notes: who you messaged, their reply, follow-up date...">${(r.notes||'').replace(/</g,'&lt;')}</textarea>
 
     <div class="donebtn">
-      <input type="checkbox" data-done="${i}" ${r.done?'checked':''}>
-      <label class="lab" style="cursor:pointer">Mark as contacted</label>
+      <input type="checkbox" data-conn="${i}" ${r.connSent?'checked':''}>
+      <label class="lab" style="cursor:pointer">Connection sent</label>
+      <input type="checkbox" data-done="${i}" ${r.done?'checked':''} style="margin-left:16px">
+      <label class="lab" style="cursor:pointer">Message sent to recruiter / company</label>
       <span class="date">${r.done&&r.date?('• '+r.date):''}</span>
     </div>
   </div>`;
@@ -369,6 +466,10 @@ document.addEventListener('change', e=>{
     if(d.checked && !r.date){ r.date = new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}); }
     if(!d.checked){ r.date=''; }
     save(); render(); return;
+  }
+  const c = e.target.closest('[data-conn]');
+  if(c){
+    const i=+c.dataset.conn; rec(i).connSent = c.checked; save(); return;
   }
 });
 
