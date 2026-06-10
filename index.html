@@ -46,6 +46,7 @@
   .badge.ngo{color:#f6c98a;border-color:#5e4626}
   .badge.consulting{color:#cdb6ff;border-color:#42345e}
   .badge.agency{color:#f5a9c9;border-color:#5e2a45}
+  .badge.remote{color:#8fe3d8;border-color:#235049}
   .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:12px 0 4px}
   label.lab{font-size:12px;color:var(--mut);text-transform:uppercase;letter-spacing:.06em}
   .msg{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:11px 13px;
@@ -82,7 +83,7 @@
 <header>
   <div class="wrap">
     <h1>Tel Aviv Network Builder</h1>
-    <div class="sub">One company a day. Find a person, send the note, log it. Building towards community, events and content roles in Israel.</div>
+    <div class="sub">One company a day. Find a person, send the note, log it. Building towards community, events and content roles, in Israel and remote for US/UK companies.</div>
     <div class="bar"><span id="progFill"></span></div>
     <div class="barlabel"><span id="progText">0 of 100 contacted</span><span id="resetBtn" style="cursor:pointer">reset all</span></div>
   </div>
@@ -98,6 +99,7 @@
       <button data-f="israeli">Israeli</button>
       <button data-f="consulting">Consulting</button>
       <button data-f="agency">Agencies</button>
+      <button data-f="remote">Remote US/UK</button>
       <button data-f="todo">To do</button>
     </div>
   </div>
@@ -127,6 +129,7 @@
       <li>Send the <b>connection note</b> first (under 300 characters). Only send the <b>follow-up</b> once they accept.</li>
       <li>Add one personal line where you can, mention a specific event, post or product of theirs. It doubles reply rates.</li>
       <li>Keep it to <b>one a day</b>. Steady beats a burst that gets you flagged as spam.</li>
+      <li>For the <b>Remote US/UK</b> companies, skip the location filter and search the role plus company name worldwide. Their message is already reframed, no Israel mention, so it reads as a remote-job approach.</li>
     </ul>
   </section>
 
@@ -235,10 +238,8 @@ const COMPANIES = [
  {n:"Sitrus",t:"agency",s:"E-commerce / social",spec:"Sitrus's e-commerce and social media work"},
  {n:"Palma Media",t:"agency",s:"Performance media",spec:"Palma Media's boutique performance media work in Tel Aviv"},
  {n:"NinjaPromo",t:"agency",s:"Social / content",spec:"NinjaPromo's social and content marketing across tech"},
- {n:"Go Envy",t:"agency",s:"Demand gen / content",spec:"Go Envy's demand-generation and content work for tech companies"},
  {n:"Wisy",t:"agency",s:"Online marketing",spec:"Wisy's boutique online-marketing work in Tel Aviv"},
  {n:"Ad-Experience",t:"agency",s:"Digital marketing",spec:"Ad-Experience's full-service digital marketing in Tel Aviv"},
- {n:"Kahena",t:"agency",s:"Performance / SEO",spec:"Kahena's performance and search marketing for SaaS"},
  {n:"Shoden Global",t:"agency",s:"Content / SEO",spec:"Shoden Global's content and SEO work for B2B brands"},
  {n:"Captain Words",t:"agency",s:"Content / localisation",spec:"Captain Words's content creation and localisation work"},
  {n:"Israel Tech Marketing",t:"agency",s:"Tech content",spec:"Israel Tech Marketing's content work for tech and SaaS companies"},
@@ -296,28 +297,47 @@ const COMPANIES = [
  {n:"Allenby Concept House",t:"agency",s:"Advertising / digital",spec:"Allenby Concept House's digital-led creative work"},
  {n:"Leo Burnett Tel Aviv",t:"agency",s:"Advertising",spec:"Leo Burnett Tel Aviv's creative campaigns"},
  {n:"Publicis Tel Aviv",t:"agency",s:"Advertising",spec:"Publicis Tel Aviv's creative and content work"},
- {n:"Penguin Strategies",t:"agency",s:"B2B marketing",spec:"Penguin Strategies' B2B content and demand-gen work"},
  {n:"GO Digital Marketing",t:"agency",s:"Performance",spec:"GO Digital Marketing's performance and e-commerce work"},
- {n:"Inter-Dev",t:"agency",s:"B2B digital",spec:"Inter-Dev's B2B digital marketing work"},
- {n:"AppLabx",t:"agency",s:"SEO / content",spec:"AppLabx's SEO and content work for startups"},
  {n:"David Vatine",t:"agency",s:"Digital marketing",spec:"David Vatine's digital marketing and growth work"},
  {n:"Adcore",t:"agency",s:"Performance",spec:"Adcore's performance marketing technology and services"},
  {n:"Gova10",t:"agency",s:"Comms / content",spec:"Gova10's strategic communications and content for tech companies"},
  {n:"Tomedes",t:"agency",s:"Content / localisation",spec:"Tomedes's content and localisation work"},
- {n:"KeyScouts",t:"agency",s:"SEO / content",spec:"KeyScouts' SEO and content work for B2B brands"},
- {n:"SEO Israel",t:"agency",s:"SEO / digital",spec:"SEO Israel's long-standing digital marketing work"},
- {n:"Operad",t:"agency",s:"SEO / performance",spec:"Operad's SEO and performance marketing work"},
  {n:"Percepto",t:"agency",s:"PR / content",spec:"Percepto's PR, content and online-reputation work"},
  {n:"Marketing Envy",t:"agency",s:"B2B tech marketing",spec:"Marketing Envy's B2B tech marketing and content"},
  {n:"Dataworks",t:"agency",s:"E-commerce",spec:"Dataworks' 360 e-commerce marketing and content work"},
  {n:"ERPR Group",t:"agency",s:"Social / community",spec:"ERPR Group's social and community work for e-commerce brands"},
  {n:"Igor Digital",t:"agency",s:"E-commerce / paid",spec:"Igor Digital's paid-media work for e-commerce"},
- {n:"YB Marketing",t:"agency",s:"SEO / content",spec:"YB Marketing's SEO and content work"},
  {n:"DigiTay",t:"agency",s:"Analytics / ads",spec:"DigiTay's performance and analytics-led marketing"},
  {n:"Finn Partners Israel",t:"agency",s:"PR",spec:"Finn Partners' global PR work from its Israel office"},
  {n:"ARMOUR Digital Marketing",t:"agency",s:"Digital marketing",spec:"ARMOUR's digital marketing work in Tel Aviv"},
  {n:"Leos Media & Interactive",t:"agency",s:"Digital / interactive",spec:"Leos Media's digital and interactive work"},
- {n:"LEVIEV'S Digital Marketing",t:"agency",s:"Digital marketing",spec:"LEVIEV'S digital marketing and content work"}
+ {n:"LEVIEV'S Digital Marketing",t:"agency",s:"Digital marketing",spec:"LEVIEV'S digital marketing and content work"},
+ {n:"Buffer",t:"remote",s:"Social media (US)",spec:"Buffer's content and community work and its fully-remote culture"},
+ {n:"Zapier",t:"remote",s:"SaaS (US)",spec:"Zapier's content marketing and fully-remote way of working"},
+ {n:"Automattic",t:"remote",s:"WordPress (US)",spec:"Automattic's fully-remote culture behind WordPress"},
+ {n:"GitLab",t:"remote",s:"SaaS (US)",spec:"GitLab's all-remote culture and community work"},
+ {n:"HubSpot",t:"remote",s:"Marketing SaaS (US/UK)",spec:"HubSpot's content marketing and community, which basically wrote the playbook"},
+ {n:"Eventbrite",t:"remote",s:"Events (US)",spec:"Eventbrite's mission to bring people together through events"},
+ {n:"Hopin",t:"remote",s:"Events platform (UK)",spec:"Hopin's work powering virtual and hybrid events"},
+ {n:"Bevy",t:"remote",s:"Community events (US)",spec:"Bevy's platform for building community through events"},
+ {n:"Circle",t:"remote",s:"Community platform (US)",spec:"Circle's platform for creators and community builders"},
+ {n:"Patreon",t:"remote",s:"Creator platform (US)",spec:"Patreon's work helping creators build community"},
+ {n:"Substack",t:"remote",s:"Publishing (US)",spec:"Substack's work helping writers build an audience"},
+ {n:"Kit (ConvertKit)",t:"remote",s:"Creator marketing (US)",spec:"Kit's work helping creators grow, and its remote culture"},
+ {n:"Ghost",t:"remote",s:"Publishing (UK)",spec:"Ghost's open, independent publishing platform and remote team"},
+ {n:"Webflow",t:"remote",s:"Web SaaS (US)",spec:"Webflow's design-led brand and community work"},
+ {n:"Notion",t:"remote",s:"SaaS (US)",spec:"Notion's content and community, and its passionate user base"},
+ {n:"Grammarly",t:"remote",s:"SaaS (US)",spec:"Grammarly's content and brand work and its remote-friendly culture"},
+ {n:"Duolingo",t:"remote",s:"EdTech (US)",spec:"Duolingo's brilliant, playful social and content marketing"},
+ {n:"Gymshark",t:"remote",s:"Fitness brand (UK)",spec:"Gymshark's community and influencer-led content"},
+ {n:"Depop",t:"remote",s:"Social commerce (UK)",spec:"Depop's community-led, Gen-Z social commerce"},
+ {n:"Monzo",t:"remote",s:"Fintech (UK)",spec:"Monzo's brand and community work"},
+ {n:"Help Scout",t:"remote",s:"SaaS (US)",spec:"Help Scout's content marketing and fully-remote culture"},
+ {n:"Remote",t:"remote",s:"HR tech (US)",spec:"Remote's mission to make global, remote work easier for everyone"},
+ {n:"Skillshare",t:"remote",s:"Creator community (US)",spec:"Skillshare's creator community and content"},
+ {n:"MasterClass",t:"remote",s:"Content / EdTech (US)",spec:"MasterClass's beautifully produced content and brand"},
+ {n:"ClickUp",t:"remote",s:"SaaS (US)",spec:"ClickUp's bold content and social marketing"},
+ {n:"Bumble",t:"remote",s:"Social / dating (US/UK)",spec:"Bumble's brand, community and content work"}
 ];
 
 const STORE_KEY = "tlv_network_v1";
@@ -330,9 +350,15 @@ function rec(i){
 }
 
 function connNote(c){
+  if(c.t==="remote"){
+    return `Hi [Name], I really admire ${c.spec}. I'm building a career in community, events and content creation and would love to do it with a remote-first team like ${c.n}. Would love to connect and follow your work.`;
+  }
   return `Hi [Name], I'm planning a move to Israel and starting to build connections early. I really admire ${c.spec}. I'm hoping to move into community, events and content creation myself, would love to connect.`;
 }
 function followUp(c){
+  if(c.t==="remote"){
+    return `Hi [Name], thanks for connecting! I reached out because I really admire ${c.spec}. I'm building a career in community, events and content creation, the work of bringing people together and telling a brand's story, and I'd love to do that with a remote team like ${c.n}. I'm early in this path, so I'm mostly here to learn and connect. If you ever hear of something junior and remote-friendly on the community, events or content side, I'd love to be on your radar. Either way, really glad to be connected.`;
+  }
   return `Hi [Name], thanks for connecting! I'm planning a move to Israel from South Africa and reaching out early to people whose teams I genuinely admire. I'm looking to build a career in community, events and content creation, and I really admire ${c.spec}. I'm right at the start of that path, so I'm mostly here to learn and connect. If you ever hear of something junior on the community, events or content side down the line, I'd love to be on your radar. Either way, really glad to be connected.`;
 }
 function withName(text, i){
@@ -354,7 +380,7 @@ function matches(c, i){
 }
 
 function badge(t){
-  const map={global:"Global",israeli:"Israeli",agency:"Agency",consulting:"Consulting"};
+  const map={global:"Global",israeli:"Israeli",agency:"Agency",consulting:"Consulting",remote:"Remote (US/UK)"};
   return `<span class="badge ${t}">${map[t]||t}</span>`;
 }
 
